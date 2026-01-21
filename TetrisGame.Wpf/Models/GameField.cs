@@ -117,5 +117,41 @@ namespace TetrisGame.Wpf.Models
             Array.Copy(_field, copy, _field.Length);
             return copy;
         }
+
+        /// <summary>
+        /// 指定位置のセルに値を設定
+        /// </summary>
+        /// <param name="x">X座標</param>
+        /// <param name="y">Y座標</param>
+        /// <param name="value">設定する値</param>
+        public void SetCell(int x, int y, int value)
+        {
+            if (x >= 0 && x < Width && y >= 0 && y < Height)
+            {
+                _field[y, x] = value;
+            }
+        }
+
+        /// <summary>
+        /// 指定行を削除し、上の行を下にシフト
+        /// </summary>
+        /// <param name="lineY">削除する行のY座標</param>
+        public void RemoveLine(int lineY)
+        {
+            // 指定行から上の行を1行ずつ下にコピー
+            for (int y = lineY; y > 0; y--)
+            {
+                for (int x = 0; x < Width; x++)
+                {
+                    _field[y, x] = _field[y - 1, x];
+                }
+            }
+
+            // 最上行をクリア
+            for (int x = 0; x < Width; x++)
+            {
+                _field[0, x] = 0;
+            }
+        }
     }
 }
